@@ -1,6 +1,6 @@
 # BUGOU? QA TA ON - Módulo Avançado 🌞
 
-Repositório para o Curso Bugou? QA TA ON - Módulo Avançado do Instituto Joga Junto
+Repositório para o Curso Bugou? QA TA ON - Módulo Avançado do Instituto Joga Junto. <br>
 Todos os conteúdos desenvolvidos e aprendidos durante a execução do curso serão mantidos aqui.
 
 Todos os códigos serão desenvolvidos em Python e a automação de testes utilizando Selenium WebDriver
