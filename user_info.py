@@ -15,7 +15,7 @@ except ValueError:
   print("Por favor, insira a altura em metros!")
   sys.exit()
 
-idade = (input("E por último, qual a sua idade? "))
+idade = input("E por último, qual a sua idade? ")
 try:
   idade = int(idade)
 except ValueError:
