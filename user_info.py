@@ -19,5 +19,7 @@ except ValueError:
 total = nota_um + nota_dois
 media = total/2
 
-print(f"\nBoa noite, {nome.capitalize()}! Você possui {idade} anos e sua altura é de {altura}m.")
+str()
+
+print(f"\nBoa noite, {nome.strip().capitalize()}! Você possui {idade} anos e sua altura é de {altura}m.")
 print(f"Suas notas sommadas dão um total de {total} pontos e uma media de {media}")
