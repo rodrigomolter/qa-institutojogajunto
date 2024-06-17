@@ -10,8 +10,8 @@ nome = input("Qual o seu nome? ")
 try:
   altura = float(input("Qual a sua altura? (em metros) "))
   idade = int(input("Qual a sua idade? "))
-  nota_um = int(input("Qual nota você tirou no PRIMEIRO teste? "))
-  nota_dois = int(input("E por último, qual nota você tirou no SEGUNDO teste? "))
+  nota_um = float(input("Qual nota você tirou no PRIMEIRO teste? "))
+  nota_dois = float(input("E por último, qual nota você tirou no SEGUNDO teste? "))
 except ValueError:
   print("Por favor, utilize apenas números!")
   sys.exit()
