@@ -1,5 +1,10 @@
 # BUGOU? QA TA ON - Módulo Avançado 🌞
 
+<p align="center"> 
+  <img align="center" title="Instituto Joga Junto" alt="Instituto Joga Junto" href="https://www.jogajuntoinstituto.org/" src="https://github.com/rodrigomolter/qa-institutojogajunto/assets/57466763/acf43fcb-f91a-450d-9291-90b479b07064" width="400px">   
+</p>
+<br>
+
 Repositório para o Curso Bugou? QA TA ON - Módulo Avançado do Instituto Joga Junto. <br>
 Todos os conteúdos desenvolvidos e aprendidos durante a execução do curso serão mantidos aqui.
 
