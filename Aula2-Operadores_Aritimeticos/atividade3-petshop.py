@@ -24,7 +24,7 @@ print("Olá, bem vindo ao PetShop Amor de Bicho")
 nome = input("Qual o nome do pet? ").capitalize()
 idade = int(input(f"Quantos anos o/a {nome} possui? "))
 porte = input(f"Qual o porte do/da {nome} (Utilize P, M ou G)? ")
-banhos = int(input(f"Quantos banhos o banho tomou nos últimos 12 meses? "))
+banhos = int(input(f"Quantos banhos o {nome} tomou nos últimos 12 meses? "))
 
 valores = {
   "g": {
