@@ -29,14 +29,15 @@ Caso o cliente faça uma compra acima de R$500,00 "PARABÉNS. VOCÊ GANHOU SUPER
 valor_compra = float(input("Informe o valor da sua compra para verificar elegibilidade para desconto: "))
 
 if valor_compra > 500.00:
-    desconto = valor_compra*(30/100)
-    print("PARABÉNS. VOCÊ GANHOU SUPER DESCONTO DE 30%")
+    desconto = valor_compra*0.3
+    print("PARABÉNS. VOCÊ GANHOU SUPER DESCONTO DE 30%.")
     print(f"O SEU DESCONTO É DE R${desconto:.2f}")
-    print(f"O TOTAL DA COMPRA É {(valor_compra-desconto):.2f}")
 elif valor_compra >= 250.00:
-    desconto = valor_compra*(10/100)
-    print("PARABÉNS. VOCÊ GANHOU 10% DE DESCONTO, MAS PODE GANHAR 30% SE SUA COMPRA FOR ACIMA DE R$500,00")
-    print(f"O SEU DESCONTO É DE {desconto:.2f} REAIS")
-    print(f"O TOTAL DA COMPRA É {(valor_compra-desconto):.2f}")
+    desconto = valor_compra*0.1
+    print("PARABÉNS. VOCÊ GANHOU 10% DE DESCONTO, MAS PODE GANHAR 30% SE SUA COMPRA FOR ACIMA DE R$500,00.")
+    print(f"O SEU DESCONTO É DE R${desconto:.2f}")
 else:
+    desconto = 0
     print("POXA, FALTA POUCO PARA VOCÊ GANHAR 10% DE DESCONTO EM SUA COMPRA.")
+
+print(f"O TOTAL DA COMPRA É R${(valor_compra-desconto):.2f}")
