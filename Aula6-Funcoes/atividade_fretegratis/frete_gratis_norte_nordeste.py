@@ -21,7 +21,7 @@ def tem_frete_gratis(cep: str) -> bool:
 def consulta_cep(cep: str) -> dict:
   response: requests.Response = requests.get(f"{ENDPOINT}/{cep}/{FORMATO_RETORNO_API}")
   dados: dict = response.json()
-  if "erro" in dados:
+  if "erro" in dados or response.status_code != 200:
     sys.exit("Houve um problema ao consultar o CEP. Certifique-se que o CEP foi digitado corretamente")
   return dados
 
