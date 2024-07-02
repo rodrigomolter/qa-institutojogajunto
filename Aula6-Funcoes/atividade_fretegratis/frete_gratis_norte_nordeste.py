@@ -1,25 +1,29 @@
 import requests
+import sys
 
 ENDPOINT = "https://viacep.com.br/ws"
 FORMATO_RETORNO_API = "json"
 
 def main():
-  cep: str = input("Informe seu CEP: ")
+  cep: str = input("Informe seu CEP: ").replace("-", "")
   if is_cep_valid(cep):
     if tem_frete_gratis(cep):
       print("Parabéns, você ganhou frete grátis!")
     else:
       print(f"O valor do frete para {cep} é R$19,90")
   else:
-    print(f"CEP {cep} NÃO É UM CEP VALIDO")
+    print(f"CEP {cep} não é um CEP válido. Informe 08 dígitos e utilize apenas números")
 
 def tem_frete_gratis(cep: str) -> bool:
   dados: dict = consulta_cep(cep)
   return is_norte_nordeste(dados['uf'])
 
-def consulta_cep(cep: str) -> dict:
+def consulta_cep(cep: str) -> tuple[dict, int]:
   response: requests.Response = requests.get(f"{ENDPOINT}/{cep}/{FORMATO_RETORNO_API}")
-  return response.json()
+  dados = response.json()
+  if "erro" in dados:
+    sys.exit("Houve um problema ao consultar o CEP. Certifique-se que o CEP foi digitado corretamente")
+  return dados
 
 def is_norte_nordeste(uf: str) -> bool:
   UF_NORTE = ("AC", "AP", "AM", "PA", "RO", "RR", "TO") 
