@@ -35,7 +35,7 @@ Funcionalidade: Frete Gratis para as regiões Norte e Nordeste
     Quando ele inserir o CEP alfanumérico "95010A10"
     Então o cliente deve ver a mensagem "CEP não é um CEP válido. Informe 08 dígitos e utilize apenas números"
 
-  Cenário: Teste de CEP existente mas inválido
+  Cenário: Teste de CEP válido mas inexistente
     Dado que o cliente esta na página de carrinho
     Quando ele inserir o CEP com a validação válida mas inexistente "00000000"
     Então o cliente deve ver a mensagem "Houve um problema ao consultar o CEP. Certifique-se que o CEP foi digitado corretamente"
