@@ -5,7 +5,7 @@ ENDPOINT = "https://viacep.com.br/ws"
 FORMATO_RETORNO_API = "json"
 
 def main() -> None:
-  cep: str = input("Informe seu CEP: ").replace("-", "")
+  cep: str = input("Informe seu CEP: ").replace("-", "") 
   if is_cep_valid(cep):
     if tem_frete_gratis(cep):
       print("Parabéns, você ganhou frete grátis!")
@@ -33,5 +33,4 @@ def is_norte_nordeste(uf: str) -> bool:
 def is_cep_valid(cep: str) -> bool:
   return len(cep) == 8 and cep.isdigit()
 
-if __name__ == "__main__":
-  main()
+main()
