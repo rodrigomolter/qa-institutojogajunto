@@ -4,7 +4,7 @@ import sys
 ENDPOINT = "https://viacep.com.br/ws"
 FORMATO_RETORNO_API = "json"
 
-def main():
+def main() -> None:
   cep: str = input("Informe seu CEP: ").replace("-", "")
   if is_cep_valid(cep):
     if tem_frete_gratis(cep):
@@ -18,9 +18,9 @@ def tem_frete_gratis(cep: str) -> bool:
   dados: dict = consulta_cep(cep)
   return is_norte_nordeste(dados['uf'])
 
-def consulta_cep(cep: str) -> tuple[dict, int]:
+def consulta_cep(cep: str) -> dict:
   response: requests.Response = requests.get(f"{ENDPOINT}/{cep}/{FORMATO_RETORNO_API}")
-  dados = response.json()
+  dados: dict = response.json()
   if "erro" in dados:
     sys.exit("Houve um problema ao consultar o CEP. Certifique-se que o CEP foi digitado corretamente")
   return dados
