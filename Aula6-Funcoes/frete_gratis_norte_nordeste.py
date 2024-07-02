@@ -22,8 +22,9 @@ def consulta_cep(cep: str) -> dict:
   return response.json()
 
 def is_norte_nordeste(uf: str) -> bool:
-  UF_NORTE_NORDESTE = ("AC", "AP", "AM", "PA", "RO", "RR", "TO", "AL", "BA", "CE", "MA", "PB", "PE", "PI", "RN", "SE")
-  return uf.upper() in UF_NORTE_NORDESTE
+  UF_NORTE = ("AC", "AP", "AM", "PA", "RO", "RR", "TO") 
+  UF_NORDESTE = ("AL", "BA", "CE", "MA", "PB", "PE", "PI", "RN", "SE")
+  return uf.upper() in UF_NORTE or uf.upper() in UF_NORDESTE
 
 def is_cep_valid(cep: str) -> bool:
   return len(cep) == 8 and cep.isdigit()
