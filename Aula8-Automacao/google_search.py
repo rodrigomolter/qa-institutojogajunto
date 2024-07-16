@@ -3,6 +3,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.remote.webelement import WebElement
 
 SEARCH_INPUT = (By.NAME, "q")
 SEARCH_RESULTS = (By.CSS_SELECTOR, "#search a h3")
@@ -22,7 +23,7 @@ def main() -> None:
   assert browser.title == "Instituto Joga Junto", "Título da página não era Instituto Joga Junto"
   browser.quit()
 
-def google_search_for(query: str) -> None:
+def google_search_for(query: str) -> list[WebElement]:
   browser.find_element(*SEARCH_INPUT).send_keys(f"{query}{Keys.ENTER}")
   WebDriverWait(browser, 5).until(EC.presence_of_element_located(SEARCH_RESULTS))
   return browser.find_elements(*SEARCH_RESULTS)
