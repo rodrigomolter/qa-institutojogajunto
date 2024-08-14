@@ -1,0 +1,3843 @@
+{
+	"info": {
+		"_postman_id": "d31da5e4-cf87-474e-90a3-7e7b2413cddd",
+		"name": "APILivro - IJJ",
+		"description": "<img src=\"https://content.pstmn.io/3d5cb994-5259-47d0-80b3-4cf6405039c8/aW1hZ2UucG5n\" width=\"212\" height=\"42\">\n\n# APILivro - Instituto Joga Junto\n\nAPI para teste dos alunos do curso de Quality Assurance do Instituto Joga Junto.\n\nVocê pode conferir a [documentação aqui.](http://apilivro.jogajuntoinstituto.org/swagger/)\n\n<br>\n<br>\n<br>\n\n**Squad Guardiões da Qualidade**\n\nAnnielle Crispim\n\nJulia Robaina\n\nMatheus Vinicius\n\nRodrigo Molter",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "33621843",
+		"_collection_link": "https://aspirantes-da-automao.postman.co/workspace/Rodrigo-Molter~72d946be-8169-4862-9d2d-4817608871b6/collection/29423847-d31da5e4-cf87-474e-90a3-7e7b2413cddd?action=share&source=collection_link&creator=33621843"
+	},
+	"item": [
+		{
+			"name": "/authors",
+			"item": [
+				{
+					"name": "Happy Path",
+					"item": [
+						{
+							"name": "Get All Authors",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}/authors/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"authors",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add new Author",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.collectionVariables.set('authorName', pm.variables.replaceIn('{{$randomFullName}}'));"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"const authorName = pm.collectionVariables.get('authorName');\r",
+											"\r",
+											"pm.test(\"Status code is 201\", () => {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response should have a property id\", () => {pm.expect(response).haveOwnProperty('id') });\r",
+											"\r",
+											"pm.test(\"Response should have a property name\", () => {pm.expect(response).haveOwnProperty('name') });\r",
+											"pm.test(\"Author Name should match\", () => {pm.expect(response.name).to.be.equal(authorName) });\r",
+											"\r",
+											"pm.collectionVariables.set('authorId', response.id);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"{{authorName}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/authors/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"authors",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Author by Id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"const authorName = pm.collectionVariables.get('authorName');\r",
+											"const authorId = pm.collectionVariables.get('authorId');\r",
+											"\r",
+											"pm.test(\"Status code is 200\", () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response should have a property id\", () => {pm.expect(response).haveOwnProperty('id') });\r",
+											"pm.test(\"Author Id should match\", () => {pm.expect(response.id).to.be.equal(authorId) });\r",
+											"\r",
+											"pm.test(\"Response should have a property name\", () => {pm.expect(response).haveOwnProperty('name') });\r",
+											"pm.test(\"Author Name should match\", () => {pm.expect(response.name).to.be.equal(authorName) });"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}/authors/{{authorId}}",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"authors",
+										"{{authorId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Edit Author",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.collectionVariables.set('authorName', pm.variables.replaceIn('{{$randomFullName}}'));"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"const authorName = pm.collectionVariables.get('authorName');\r",
+											"const authorId = pm.collectionVariables.get('authorId');\r",
+											"\r",
+											"pm.test(\"Status code is 200\", () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response should have a property id\", () => {pm.expect(response).haveOwnProperty('id') });\r",
+											"pm.test(\"Author Id should match\", () => {pm.expect(response.id).to.be.equal(authorId) });\r",
+											"\r",
+											"pm.test(\"Response should have a property name\", () => {pm.expect(response).haveOwnProperty('name') });\r",
+											"pm.test(\"Author Name should match\", () => {pm.expect(response.name).to.be.equal(authorName) });"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"{{authorName}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/authors/{{authorId}}/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"authors",
+										"{{authorId}}",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Edit Author",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.collectionVariables.set('authorName', pm.variables.replaceIn('{{$randomFullName}}'));"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"const authorName = pm.collectionVariables.get('authorName');\r",
+											"const authorId = pm.collectionVariables.get('authorId');\r",
+											"\r",
+											"pm.test(\"Status code is 200\", () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response should have a property id\", () => {pm.expect(response).haveOwnProperty('id') });\r",
+											"pm.test(\"Author Id should match\", () => {pm.expect(response.id).to.be.equal(authorId) });\r",
+											"\r",
+											"pm.test(\"Response should have a property name\", () => {pm.expect(response).haveOwnProperty('name') });\r",
+											"pm.test(\"Author Name should match\", () => {pm.expect(response.name).to.be.equal(authorName) });"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"{{authorName}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/authors/{{authorId}}/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"authors",
+										"{{authorId}}",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Author",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 204\", () => {\r",
+											"    pm.response.to.have.status(204);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/authors/{{authorId}}/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"authors",
+										"{{authorId}}",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add new Author Copy",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.collectionVariables.set('authorName', pm.variables.replaceIn('{{$randomFullName}}'));"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"const authorName = pm.collectionVariables.get('authorName');\r",
+											"\r",
+											"pm.test(\"Status code is 201\", () => {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response should have a property id\", () => {pm.expect(response).haveOwnProperty('id') });\r",
+											"\r",
+											"pm.test(\"Response should have a property name\", () => {pm.expect(response).haveOwnProperty('name') });\r",
+											"pm.test(\"Author Name should match\", () => {pm.expect(response.name).to.be.equal(authorName) });\r",
+											"\r",
+											"pm.collectionVariables.set('authorId', response.id);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"{{authorName}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/authors/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"authors",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Invalid Fields",
+					"item": [
+						{
+							"name": "Add new Author - Empty Field Name",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 400\", () => {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \" \"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/authors/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"authors",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add new Author - Name > Max Length",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 400\", () => {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"Nome muito muito muito muito muito muito muito longo\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/authors/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"authors",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Author by Id - Invalid Id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status code is 400\", () => {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}/authors/-1",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"authors",
+										"-1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Edit Author - Invalid Id",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.collectionVariables.set('authorName', pm.variables.replaceIn('{{$randomFullName}}'));"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status code is 404\", () => {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"{{authorName}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/authors/-1/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"authors",
+										"-1",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Edit Author - Empty Field Name",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.collectionVariables.set('authorName', pm.variables.replaceIn('{{$randomFullName}}'));"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status code is 400\", () => {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \" \"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/authors/{{authorId}}/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"authors",
+										"{{authorId}}",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Edit Author - Name > Max Length",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 400\", () => {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"Nome muito muito muito muito muito muito muito longo\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/authors/{{authorId}}/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"authors",
+										"{{authorId}}",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Edit Author - Invalid Id",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.collectionVariables.set('authorName', pm.variables.replaceIn('{{$randomFullName}}'));"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status code is 404\", () => {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"{{authorName}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/authors/-1/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"authors",
+										"-1",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Edit Author - Empty Field Name",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.collectionVariables.set('authorName', pm.variables.replaceIn('{{$randomFullName}}'));"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status code is 400\", () => {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \" \"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/authors/{{authorId}}/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"authors",
+										"{{authorId}}",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Edit Author - Name > Max Length",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 400\", () => {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"Nome muito muito muito muito muito muito muito longo\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/authors/{{authorId}}/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"authors",
+										"{{authorId}}",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Author  - Invalid Id",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 404\", () => {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/authors/-1/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"authors",
+										"-1",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "/genders",
+			"item": [
+				{
+					"name": "Happy Path",
+					"item": [
+						{
+							"name": "Get All Genders",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}/genders/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"genders",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add new Gender",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.collectionVariables.set('genderName', pm.variables.replaceIn('{{$randomBs}}'));"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"const genderName = pm.collectionVariables.get('genderName');\r",
+											"const squadName = pm.collectionVariables.get('squadName');\r",
+											"\r",
+											"pm.test(\"Status code is 201\", () => {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response should have a property id\", () => {pm.expect(response).haveOwnProperty('id') });\r",
+											"\r",
+											"pm.test(\"Response should have a property name\", () => {pm.expect(response).haveOwnProperty('name') });\r",
+											"pm.test(\"Gender name should match\", () => {pm.expect(response.name).to.be.equal(genderName) });\r",
+											"\r",
+											"pm.test(\"Response should have a property squad\", () => {pm.expect(response).haveOwnProperty('squad') });\r",
+											"pm.test(\"Squad name should match\", () => {pm.expect(response.squad).to.be.equal(squadName) });\r",
+											"\r",
+											"pm.collectionVariables.set('genderId', response.id);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"{{genderName}}\",\r\n  \"squad\": \"{{squadName}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/genders/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"genders",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Gender by Id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"const genderId = pm.collectionVariables.get('genderId');\r",
+											"const genderName = pm.collectionVariables.get('genderName');\r",
+											"const squadName = pm.collectionVariables.get('squadName');\r",
+											"\r",
+											"pm.test(\"Status code is 200\", () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response should have a property id\", () => {pm.expect(response).haveOwnProperty('id') });\r",
+											"pm.test(\"Gender Id should match\", () => {pm.expect(response.id).to.be.equal(genderId) });\r",
+											"\r",
+											"pm.test(\"Response should have a property name\", () => {pm.expect(response).haveOwnProperty('name') });\r",
+											"pm.test(\"Gender Name should match\", () => {pm.expect(response.name).to.be.equal(genderName) });\r",
+											"\r",
+											"pm.test(\"Response should have a property squad\", () => {pm.expect(response).haveOwnProperty('name') });\r",
+											"pm.test(\"Squad Name should match\", () => {pm.expect(response.squad).to.be.equal(squadName) });"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}/genders/{{genderId}}",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"genders",
+										"{{genderId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Edit Gender",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.collectionVariables.set('genderName', pm.variables.replaceIn('{{$randomBs}}'));"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"const genderName = pm.collectionVariables.get('genderName');\r",
+											"const squadName = pm.collectionVariables.get('squadName');\r",
+											"\r",
+											"pm.test(\"Status code is 200\", () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response should have a property id\", () => {pm.expect(response).haveOwnProperty('id') });\r",
+											"\r",
+											"pm.test(\"Response should have a property name\", () => {pm.expect(response).haveOwnProperty('name') });\r",
+											"pm.test(\"Gender name should match\", () => {pm.expect(response.name).to.be.equal(genderName) });\r",
+											"\r",
+											"pm.test(\"Response should have a property squad\", () => {pm.expect(response).haveOwnProperty('squad') });\r",
+											"pm.test(\"Squad name should match\", () => {pm.expect(response.squad).to.be.equal(squadName) });\r",
+											"\r",
+											"pm.collectionVariables.set('genderId', response.id);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"{{genderName}}\",\r\n  \"squad\": \"{{squadName}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/genders/{{genderId}}/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"genders",
+										"{{genderId}}",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Edit Gender",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.collectionVariables.set('genderName', pm.variables.replaceIn('{{$randomBs}}'));"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"const genderName = pm.collectionVariables.get('genderName');\r",
+											"const squadName = pm.collectionVariables.get('squadName');\r",
+											"\r",
+											"pm.test(\"Status code is 200\", () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response should have a property id\", () => {pm.expect(response).haveOwnProperty('id') });\r",
+											"\r",
+											"pm.test(\"Response should have a property name\", () => {pm.expect(response).haveOwnProperty('name') });\r",
+											"pm.test(\"Gender name should match\", () => {pm.expect(response.name).to.be.equal(genderName) });\r",
+											"\r",
+											"pm.test(\"Response should have a property squad\", () => {pm.expect(response).haveOwnProperty('squad') });\r",
+											"pm.test(\"Squad name should match\", () => {pm.expect(response.squad).to.be.equal(squadName) });\r",
+											"\r",
+											"pm.collectionVariables.set('genderId', response.id);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"{{genderName}}\",\r\n  \"squad\": \"{{squadName}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/genders/{{genderId}}/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"genders",
+										"{{genderId}}",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Gender",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 204\", () => {\r",
+											"    pm.response.to.have.status(204);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/genders/{{genderId}}/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"genders",
+										"{{genderId}}",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add new Gender Copy",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.collectionVariables.set('genderName', pm.variables.replaceIn('{{$randomBs}}'));"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"const genderName = pm.collectionVariables.get('genderName');\r",
+											"const squadName = pm.collectionVariables.get('squadName');\r",
+											"\r",
+											"pm.test(\"Status code is 201\", () => {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response should have a property id\", () => {pm.expect(response).haveOwnProperty('id') });\r",
+											"\r",
+											"pm.test(\"Response should have a property name\", () => {pm.expect(response).haveOwnProperty('name') });\r",
+											"pm.test(\"Gender name should match\", () => {pm.expect(response.name).to.be.equal(genderName) });\r",
+											"\r",
+											"pm.test(\"Response should have a property squad\", () => {pm.expect(response).haveOwnProperty('squad') });\r",
+											"pm.test(\"Squad name should match\", () => {pm.expect(response.squad).to.be.equal(squadName) });\r",
+											"\r",
+											"pm.collectionVariables.set('genderId', response.id);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"{{genderName}}\",\r\n  \"squad\": \"{{squadName}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/genders/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"genders",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Invalid Fields",
+					"item": [
+						{
+							"name": "Add new Gender - Empty Name",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status code is 400\", () => {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \" \",\r\n  \"squad\": \"{{squadName}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/genders/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"genders",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add new Gender - Empty Squad",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status code is 400\", () => {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"{{genderName}}\",\r\n  \"squad\": \" \"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/genders/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"genders",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add new Gender - No Squad",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.collectionVariables.set('genderName', pm.variables.replaceIn('{{$randomBs}}'));"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"const genderName = pm.collectionVariables.get('genderName');\r",
+											"const squadName = pm.collectionVariables.get('defaultSquadName');\r",
+											"\r",
+											"pm.test(\"Status code is 201\", () => {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response should have a property id\", () => {pm.expect(response).haveOwnProperty('id') });\r",
+											"\r",
+											"pm.test(\"Response should have a property name\", () => {pm.expect(response).haveOwnProperty('name') });\r",
+											"pm.test(\"Gender name should match\", () => {pm.expect(response.name).to.be.equal(genderName) });\r",
+											"\r",
+											"pm.test(\"Response should have a property squad\", () => {pm.expect(response).haveOwnProperty('squad') });\r",
+											"pm.test(\"Squad name should match\", () => {pm.expect(response.squad).to.be.equal(squadName) });"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"{{genderName}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/genders/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"genders",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add new Gender - Name > MaxLength",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status code is 400\", () => {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"Nome muito muito muito muito muito muito muito longo\",\r\n  \"squad\": \"{{squadName}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/genders/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"genders",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add new Gender - Squad > MaxLength",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status code is 400\", () => {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"{{genderName}}\",\r\n  \"squad\": \"Nome muito muito muito muito lo\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/genders/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"genders",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Gender by Id - Invalid Id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 404\", () => {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}/genders/-1",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"genders",
+										"-1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Edit Gender - Invalid Id",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.collectionVariables.set('genderName', pm.variables.replaceIn('{{$randomBs}}'));"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status code is 404\", () => {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"{{genderName}}\",\r\n  \"squad\": \"{{squadName}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/genders/-1/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"genders",
+										"-1",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Edit Gender - Empty Name",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status code is 400\", () => {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \" \",\r\n  \"squad\": \"{{squadName}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/genders/{{genderId}}/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"genders",
+										"{{genderId}}",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Edit Gender - Empty Squad",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.collectionVariables.set('genderName', pm.variables.replaceIn('{{$randomBs}}'));"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status code is 400\", () => {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"{{genderName}}\",\r\n  \"squad\": \" \"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/genders/{{genderId}}/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"genders",
+										"{{genderId}}",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Edit Gender - No Squad",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.collectionVariables.set('genderName', pm.variables.replaceIn('{{$randomBs}}'));"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"const genderName = pm.collectionVariables.get('genderName');\r",
+											"const squadName = pm.collectionVariables.get('defaultSquadName');\r",
+											"\r",
+											"pm.test(\"Status code is 200\", () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response should have a property id\", () => {pm.expect(response).haveOwnProperty('id') });\r",
+											"\r",
+											"pm.test(\"Response should have a property name\", () => {pm.expect(response).haveOwnProperty('name') });\r",
+											"pm.test(\"Gender name should match\", () => {pm.expect(response.name).to.be.equal(genderName) });\r",
+											"\r",
+											"pm.test(\"Response should have a property squad\", () => {pm.expect(response).haveOwnProperty('squad') });\r",
+											"pm.test(\"Squad name should match\", () => {pm.expect(response.squad).to.be.equal(squadName) });"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"{{genderName}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/genders/{{genderId}}/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"genders",
+										"{{genderId}}",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Edit Gender - Name > MaxLength",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status code is 400\", () => {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"Nome muito muito muito muito muito muito muito longo\",\r\n  \"squad\": \"{{squadName}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/genders/{{genderId}}/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"genders",
+										"{{genderId}}",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Edit Gender - Squad > MaxLength",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status code is 400\", () => {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"{{genderName}}\",\r\n  \"squad\": \"Nome muito muito muito muito lo\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/genders/{{genderId}}/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"genders",
+										"{{genderId}}",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Edit Gender - Invalid Id",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.collectionVariables.set('genderName', pm.variables.replaceIn('{{$randomBs}}'));"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status code is 404\", () => {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"{{genderName}}\",\r\n  \"squad\": \"{{squadName}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/genders/-1/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"genders",
+										"-1",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Edit Gender - Empty Name",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status code is 400\", () => {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \" \",\r\n  \"squad\": \"{{squadName}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/genders/{{genderId}}/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"genders",
+										"{{genderId}}",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Edit Gender - Empty Squad",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.collectionVariables.set('genderName', pm.variables.replaceIn('{{$randomBs}}'));"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status code is 400\", () => {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"{{genderName}}\",\r\n  \"squad\": \" \"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/genders/{{genderId}}/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"genders",
+										"{{genderId}}",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Edit Gender - No Squad",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.collectionVariables.set('genderName', pm.variables.replaceIn('{{$randomBs}}'));"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"const genderName = pm.collectionVariables.get('genderName');\r",
+											"const squadName = pm.collectionVariables.get('defaultSquadName');\r",
+											"\r",
+											"pm.test(\"Status code is 200\", () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response should have a property id\", () => {pm.expect(response).haveOwnProperty('id') });\r",
+											"\r",
+											"pm.test(\"Response should have a property name\", () => {pm.expect(response).haveOwnProperty('name') });\r",
+											"pm.test(\"Gender name should match\", () => {pm.expect(response.name).to.be.equal(genderName) });\r",
+											"\r",
+											"pm.test(\"Response should have a property squad\", () => {pm.expect(response).haveOwnProperty('squad') });\r",
+											"pm.test(\"Squad name should match\", () => {pm.expect(response.squad).to.be.equal(squadName) });"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"{{genderName}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/genders/{{genderId}}/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"genders",
+										"{{genderId}}",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Edit Gender - Name > MaxLength",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status code is 400\", () => {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"Nome muito muito muito muito muito muito muito longo\",\r\n  \"squad\": \"{{squadName}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/genders/{{genderId}}/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"genders",
+										"{{genderId}}",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Edit Gender - Squad > MaxLength",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status code is 400\", () => {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"{{genderName}}\",\r\n  \"squad\": \"Nome muito muito muito muito lo\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/genders/{{genderId}}/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"genders",
+										"{{genderId}}",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Gender - Invalid Id",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 404\", () => {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/genders/-1",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"genders",
+										"-1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "/books",
+			"item": [
+				{
+					"name": "Happy Path",
+					"item": [
+						{
+							"name": "Get All Books",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}/books/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"books",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add new book",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.collectionVariables.set('bookTitle', pm.variables.replaceIn('{{$randomCatchPhrase}}'));\r",
+											"pm.collectionVariables.set('bookDescription', pm.variables.replaceIn('{{$randomPhrase}}'));"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"const bookTitle = pm.collectionVariables.get('bookTitle');\r",
+											"const bookDescription = pm.collectionVariables.get('bookDescription');\r",
+											"const authorId = pm.collectionVariables.get('authorId');\r",
+											"const genderId = pm.collectionVariables.get('genderId');\r",
+											"\r",
+											"pm.test(\"Status code is 201\", () => {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response should have a property id\", () => {pm.expect(response).haveOwnProperty('id') });\r",
+											"\r",
+											"pm.test(\"Response should have a property title\", () => {pm.expect(response).haveOwnProperty('title') });\r",
+											"pm.test(\"Book title should match\", () => {pm.expect(response.title).to.be.equal(bookTitle) });\r",
+											"\r",
+											"pm.test(\"Response should have a property description\", () => {pm.expect(response).haveOwnProperty('description') });\r",
+											"pm.test(\"Book description should match\", () => {pm.expect(response.description).to.be.equal(bookDescription) });\r",
+											"\r",
+											"pm.test(\"Response should have a property author\", () => {pm.expect(response).haveOwnProperty('author') });\r",
+											"pm.test(\"Author Id should match\", () => {pm.expect(response.author).to.be.equal(authorId) });\r",
+											"\r",
+											"pm.test(\"Response should have a property gender\", () => {pm.expect(response).haveOwnProperty('gender') });\r",
+											"pm.test(\"Gender Id should match\", () => {pm.expect(response.gender).to.be.equal(genderId) });\r",
+											"\r",
+											"//pm.collectionVariables.set('bookId', response.id);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"title\": \"{{bookTitle}}\",\r\n  \"description\": \"{{bookDescription}}\",\r\n  \"author\": {{authorId}},\r\n  \"gender\": {{genderId}}\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/books/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"books",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Book by Id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"const bookId = pm.collectionVariables.get('bookId');\r",
+											"const bookTitle = pm.collectionVariables.get('bookTitle');\r",
+											"const bookDescription = pm.collectionVariables.get('bookDescription');\r",
+											"const authorId = pm.collectionVariables.get('authorId');\r",
+											"const genderId = pm.collectionVariables.get('genderId');\r",
+											"\r",
+											"pm.test(\"Status code is 200\", () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response should have a property id\", () => {pm.expect(response).haveOwnProperty('id') });\r",
+											"pm.test(\"Book id should match\", () => {pm.expect(response.id).to.be.equal(bookId) });\r",
+											"\r",
+											"pm.test(\"Response should have a property title\", () => {pm.expect(response).haveOwnProperty('title') });\r",
+											"pm.test(\"Book title should match\", () => {pm.expect(response.title).to.be.equal(bookTitle) });\r",
+											"\r",
+											"pm.test(\"Response should have a property description\", () => {pm.expect(response).haveOwnProperty('description') });\r",
+											"pm.test(\"Book description should match\", () => {pm.expect(response.description).to.be.equal(bookDescription) });\r",
+											"\r",
+											"pm.test(\"Response should have a property author\", () => {pm.expect(response).haveOwnProperty('author') });\r",
+											"pm.test(\"Author Id should match\", () => {pm.expect(response.author).to.be.equal(authorId) });\r",
+											"\r",
+											"pm.test(\"Response should have a property gender\", () => {pm.expect(response).haveOwnProperty('gender') });\r",
+											"pm.test(\"Gender Id should match\", () => {pm.expect(response.gender).to.be.equal(genderId) });"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}/books/{{bookId}}/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"books",
+										"{{bookId}}",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Edit Book",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.collectionVariables.set('bookTitle', pm.variables.replaceIn('{{$randomCatchPhrase}}'));\r",
+											"pm.collectionVariables.set('bookDescription', pm.variables.replaceIn('{{$randomPhrase}}'));"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"const bookId = pm.collectionVariables.get('bookId');\r",
+											"const bookTitle = pm.collectionVariables.get('bookTitle');\r",
+											"const bookDescription = pm.collectionVariables.get('bookDescription');\r",
+											"const authorId = pm.collectionVariables.get('authorId');\r",
+											"const genderId = pm.collectionVariables.get('genderId');\r",
+											"\r",
+											"pm.test(\"Status code is 200\", () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response should have a property id\", () => {pm.expect(response).haveOwnProperty('id') });\r",
+											"pm.test(\"Book id should match\", () => {pm.expect(response.id).to.be.equal(bookId) });\r",
+											"\r",
+											"pm.test(\"Response should have a property title\", () => {pm.expect(response).haveOwnProperty('title') });\r",
+											"pm.test(\"Book title should match\", () => {pm.expect(response.title).to.be.equal(bookTitle) });\r",
+											"\r",
+											"pm.test(\"Response should have a property description\", () => {pm.expect(response).haveOwnProperty('description') });\r",
+											"pm.test(\"Book description should match\", () => {pm.expect(response.description).to.be.equal(bookDescription) });\r",
+											"\r",
+											"pm.test(\"Response should have a property author\", () => {pm.expect(response).haveOwnProperty('author') });\r",
+											"pm.test(\"Author Id should match\", () => {pm.expect(response.author).to.be.equal(authorId) });\r",
+											"\r",
+											"pm.test(\"Response should have a property gender\", () => {pm.expect(response).haveOwnProperty('gender') });\r",
+											"pm.test(\"Gender Id should match\", () => {pm.expect(response.gender).to.be.equal(genderId) });"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"title\": \"{{bookTitle}}\",\r\n  \"description\": \"{{bookDescription}}\",\r\n  \"author\": {{authorId}},\r\n  \"gender\": {{genderId}}\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/books/{{bookId}}/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"books",
+										"{{bookId}}",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Edit Book",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.collectionVariables.set('bookDescription', pm.variables.replaceIn('{{$randomPhrase}}'));"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"const bookId = pm.collectionVariables.get('bookId');\r",
+											"const bookTitle = pm.collectionVariables.get('bookTitle');\r",
+											"const bookDescription = pm.collectionVariables.get('bookDescription');\r",
+											"const authorId = pm.collectionVariables.get('authorId');\r",
+											"const genderId = pm.collectionVariables.get('genderId');\r",
+											"\r",
+											"pm.test(\"Status code is 200\", () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response should have a property id\", () => {pm.expect(response).haveOwnProperty('id') });\r",
+											"pm.test(\"Book id should match\", () => {pm.expect(response.id).to.be.equal(bookId) });\r",
+											"\r",
+											"pm.test(\"Response should have a property title\", () => {pm.expect(response).haveOwnProperty('title') });\r",
+											"pm.test(\"Book title should match\", () => {pm.expect(response.title).to.be.equal(bookTitle) });\r",
+											"\r",
+											"pm.test(\"Response should have a property description\", () => {pm.expect(response).haveOwnProperty('description') });\r",
+											"pm.test(\"Book description should match\", () => {pm.expect(response.description).to.be.equal(bookDescription) });\r",
+											"\r",
+											"pm.test(\"Response should have a property author\", () => {pm.expect(response).haveOwnProperty('author') });\r",
+											"pm.test(\"Author Id should match\", () => {pm.expect(response.author).to.be.equal(authorId) });\r",
+											"\r",
+											"pm.test(\"Response should have a property gender\", () => {pm.expect(response).haveOwnProperty('gender') });\r",
+											"pm.test(\"Gender Id should match\", () => {pm.expect(response.gender).to.be.equal(genderId) });"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"description\": \"{{bookDescription}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/books/{{bookId}}/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"books",
+										"{{bookId}}",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Book",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 204\", () => {\r",
+											"    pm.response.to.have.status(204);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/books/{{bookId}}/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"books",
+										"{{bookId}}",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add new book Copy",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.collectionVariables.set('bookTitle', pm.variables.replaceIn('{{$randomCatchPhrase}}'));\r",
+											"pm.collectionVariables.set('bookDescription', pm.variables.replaceIn('{{$randomPhrase}}'));"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"const bookTitle = pm.collectionVariables.get('bookTitle');\r",
+											"const bookDescription = pm.collectionVariables.get('bookDescription');\r",
+											"const authorId = pm.collectionVariables.get('authorId');\r",
+											"const genderId = pm.collectionVariables.get('genderId');\r",
+											"\r",
+											"pm.test(\"Status code is 201\", () => {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response should have a property id\", () => {pm.expect(response).haveOwnProperty('id') });\r",
+											"\r",
+											"pm.test(\"Response should have a property title\", () => {pm.expect(response).haveOwnProperty('title') });\r",
+											"pm.test(\"Book title should match\", () => {pm.expect(response.title).to.be.equal(bookTitle) });\r",
+											"\r",
+											"pm.test(\"Response should have a property description\", () => {pm.expect(response).haveOwnProperty('description') });\r",
+											"pm.test(\"Book description should match\", () => {pm.expect(response.description).to.be.equal(bookDescription) });\r",
+											"\r",
+											"pm.test(\"Response should have a property author\", () => {pm.expect(response).haveOwnProperty('author') });\r",
+											"pm.test(\"Author Id should match\", () => {pm.expect(response.author).to.be.equal(authorId) });\r",
+											"\r",
+											"pm.test(\"Response should have a property gender\", () => {pm.expect(response).haveOwnProperty('gender') });\r",
+											"pm.test(\"Gender Id should match\", () => {pm.expect(response.gender).to.be.equal(genderId) });\r",
+											"\r",
+											"//pm.collectionVariables.set('bookId', response.id);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"title\": \"{{bookTitle}}\",\r\n  \"description\": \"{{bookDescription}}\",\r\n  \"author\": {{authorId}},\r\n  \"gender\": {{genderId}}\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/books/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"books",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Invalid Fields",
+					"item": [
+						{
+							"name": "Add new book - Empty Title",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.collectionVariables.set('bookDescription', pm.variables.replaceIn('{{$randomPhrase}}'));"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status code is 400\", () => {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"title\": \" \",\r\n  \"description\": \"{{bookDescription}}\",\r\n  \"author\": {{authorId}},\r\n  \"gender\": {{genderId}}\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/books/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"books",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add new book - Empty Description",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.collectionVariables.set('bookTitle', pm.variables.replaceIn('{{$randomCatchPhrase}}'));"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status code is 400\", () => {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"title\": \"{{bookTitle}}\",\r\n  \"description\": \" \",\r\n  \"author\": {{authorId}},\r\n  \"gender\": {{genderId}}\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/books/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"books",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add new book - Invalid Author",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.collectionVariables.set('bookTitle', pm.variables.replaceIn('{{$randomCatchPhrase}}'));\r",
+											"pm.collectionVariables.set('bookDescription', pm.variables.replaceIn('{{$randomPhrase}}'));"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status code is 400\", () => {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"title\": \"{{bookTitle}}\",\r\n  \"description\": \"{{bookDescription}}\",\r\n  \"author\": 0,\r\n  \"gender\": {{genderId}}\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/books/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"books",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add new book - Invalid Gender",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.collectionVariables.set('bookTitle', pm.variables.replaceIn('{{$randomCatchPhrase}}'));\r",
+											"pm.collectionVariables.set('bookDescription', pm.variables.replaceIn('{{$randomPhrase}}'));"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status code is 400\", () => {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"title\": \"{{bookTitle}}\",\r\n  \"description\": \"{{bookDescription}}\",\r\n  \"author\": {{authorId}},\r\n  \"gender\": 0\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/books/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"books",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add new book - Title > MaxLength",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.collectionVariables.set('bookTitle', pm.variables.replaceIn('{{$randomCatchPhrase}}'));\r",
+											"pm.collectionVariables.set('bookDescription', pm.variables.replaceIn('{{$randomPhrase}}'));"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status code is 400\", () => {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"title\": \"Nome muito muito muito muito muito muito muito muito muito muito muito muito muito muito muito longo!!\",\r\n  \"description\": \"{{bookDescription}}\",\r\n  \"author\": {{authorId}},\r\n  \"gender\": {{genderId}}\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/books/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"books",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Book by Id - Invalid Id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status code is 404\", () => {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}/books/-1",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"books",
+										"-1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Edit Book - Invalid Id",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.collectionVariables.set('bookTitle', pm.variables.replaceIn('{{$randomCatchPhrase}}'));\r",
+											"pm.collectionVariables.set('bookDescription', pm.variables.replaceIn('{{$randomPhrase}}'));"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status code is 404\", () => {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"title\": \"{{bookTitle}}\",\r\n  \"description\": \"{{bookDescription}}\",\r\n  \"author\": {{authorId}},\r\n  \"gender\": {{genderId}}\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/books/-1/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"books",
+										"-1",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Edit book - Empty Title",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.collectionVariables.set('bookDescription', pm.variables.replaceIn('{{$randomPhrase}}'));"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status code is 400\", () => {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"title\": \" \",\r\n  \"description\": \"{{bookDescription}}\",\r\n  \"author\": {{authorId}},\r\n  \"gender\": {{genderId}}\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/books/{{bookId}}/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"books",
+										"{{bookId}}",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Edit book - Empty Description",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.collectionVariables.set('bookTitle', pm.variables.replaceIn('{{$randomCatchPhrase}}'));"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status code is 400\", () => {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"title\": \"{{bookTitle}}\",\r\n  \"description\": \" \",\r\n  \"author\": {{authorId}},\r\n  \"gender\": {{genderId}}\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/books/{{bookId}}/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"books",
+										"{{bookId}}",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Edit book - Invalid Author",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.collectionVariables.set('bookTitle', pm.variables.replaceIn('{{$randomCatchPhrase}}'));\r",
+											"pm.collectionVariables.set('bookDescription', pm.variables.replaceIn('{{$randomPhrase}}'));"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status code is 400\", () => {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"title\": \"{{bookTitle}}\",\r\n  \"description\": \"{{bookDescription}}\",\r\n  \"author\": 0,\r\n  \"gender\": {{genderId}}\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/books/{{bookId}}/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"books",
+										"{{bookId}}",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Edit book - Invalid Gender",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.collectionVariables.set('bookTitle', pm.variables.replaceIn('{{$randomCatchPhrase}}'));\r",
+											"pm.collectionVariables.set('bookDescription', pm.variables.replaceIn('{{$randomPhrase}}'));"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status code is 400\", () => {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"title\": \"{{bookTitle}}\",\r\n  \"description\": \"{{bookDescription}}\",\r\n  \"author\": {{authorId}},\r\n  \"gender\": 0\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/books/{{bookId}}/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"books",
+										"{{bookId}}",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Edit book - Title > MaxLength",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.collectionVariables.set('bookTitle', pm.variables.replaceIn('{{$randomCatchPhrase}}'));\r",
+											"pm.collectionVariables.set('bookDescription', pm.variables.replaceIn('{{$randomPhrase}}'));"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status code is 400\", () => {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"title\": \"Nome muito muito muito muito muito muito muito muito muito muito muito muito muito muito muito longo!!\",\r\n  \"description\": \"{{bookDescription}}\",\r\n  \"author\": {{authorId}},\r\n  \"gender\": {{genderId}}\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/books/{{bookId}}/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"books",
+										"{{bookId}}",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Edit Book - Invalid Id",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.collectionVariables.set('bookTitle', pm.variables.replaceIn('{{$randomCatchPhrase}}'));\r",
+											"pm.collectionVariables.set('bookDescription', pm.variables.replaceIn('{{$randomPhrase}}'));"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status code is 404\", () => {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"title\": \"{{bookTitle}}\",\r\n  \"description\": \"{{bookDescription}}\",\r\n  \"author\": {{authorId}},\r\n  \"gender\": {{genderId}}\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/books/-1/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"books",
+										"-1",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Edit book - Empty Title",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.collectionVariables.set('bookDescription', pm.variables.replaceIn('{{$randomPhrase}}'));"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status code is 400\", () => {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"title\": \" \"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/books/{{bookId}}/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"books",
+										"{{bookId}}",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Edit book - Empty Description",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.collectionVariables.set('bookTitle', pm.variables.replaceIn('{{$randomCatchPhrase}}'));"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status code is 400\", () => {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"description\": \" \"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/books/{{bookId}}/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"books",
+										"{{bookId}}",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Edit book - Invalid Author",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.collectionVariables.set('bookTitle', pm.variables.replaceIn('{{$randomCatchPhrase}}'));\r",
+											"pm.collectionVariables.set('bookDescription', pm.variables.replaceIn('{{$randomPhrase}}'));"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status code is 400\", () => {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"author\": 0\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/books/{{bookId}}/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"books",
+										"{{bookId}}",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Edit book - Invalid Gender",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.collectionVariables.set('bookTitle', pm.variables.replaceIn('{{$randomCatchPhrase}}'));\r",
+											"pm.collectionVariables.set('bookDescription', pm.variables.replaceIn('{{$randomPhrase}}'));"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status code is 400\", () => {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"gender\": 0\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/books/{{bookId}}/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"books",
+										"{{bookId}}",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Edit book - Title > MaxLength",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.collectionVariables.set('bookTitle', pm.variables.replaceIn('{{$randomCatchPhrase}}'));\r",
+											"pm.collectionVariables.set('bookDescription', pm.variables.replaceIn('{{$randomPhrase}}'));"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status code is 400\", () => {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"title\": \"Nome muito muito muito muito muito muito muito muito muito muito muito muito muito muito muito longo!!\",\r\n  \"description\": \"{{bookDescription}}\",\r\n  \"author\": {{authorId}},\r\n  \"gender\": {{genderId}}\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/books/{{bookId}}/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"books",
+										"{{bookId}}",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Book - Invalid Id",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 404\", () => {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/books/-1/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"books",
+										"-1",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseURL",
+			"value": "http://apilivro.jogajuntoinstituto.org",
+			"type": "string"
+		},
+		{
+			"key": "authorName",
+			"value": ""
+		},
+		{
+			"key": "authorId",
+			"value": ""
+		},
+		{
+			"key": "genderName",
+			"value": ""
+		},
+		{
+			"key": "genderId",
+			"value": ""
+		},
+		{
+			"key": "squadName",
+			"value": "Guardiões da Qualidade",
+			"type": "string"
+		},
+		{
+			"key": "bookTitle",
+			"value": ""
+		},
+		{
+			"key": "bookDescription",
+			"value": ""
+		},
+		{
+			"key": "bookId",
+			"value": "333",
+			"type": "string"
+		},
+		{
+			"key": "defaultSquadName",
+			"value": "Joga Junto",
+			"type": "string"
+		}
+	]
+}
